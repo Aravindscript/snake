@@ -1,0 +1,816 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #c99fa0;
+}
+
+/* =========================================
+   MAIN
+========================================= */
+
+.game-container {
+  width: 100%;
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 25px 15px;
+
+  background: #c99fa0;
+}
+
+/* =========================================
+   GAME CARD
+========================================= */
+
+.game-card {
+  width: 530px;
+  max-width: 95vw;
+
+  background: #050505;
+
+  border-radius: 14px;
+
+  border: 2px solid #202020;
+
+  padding: 28px 38px 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  box-shadow:
+    0 0 18px rgba(0, 0, 0, 0.75),
+    inset 0 0 35px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================
+   TITLE
+========================================= */
+
+.game-title {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 17px;
+
+  margin-bottom: 22px;
+}
+
+.game-title h1 {
+  color: #3df16f;
+
+  font-size: 30px;
+
+  font-weight: 900;
+
+  letter-spacing: 1px;
+
+  text-shadow:
+    0 0 5px #2adf61,
+    0 0 12px rgba(50, 239, 108, 0.8),
+    0 0 25px rgba(50, 239, 108, 0.35);
+}
+
+/* =========================================
+   REAL SNAKE SVG
+========================================= */
+
+.real-snake-logo {
+  width: 82px;
+  height: 55px;
+
+  overflow: visible;
+
+  filter:
+    drop-shadow(0 0 3px #31ef68)
+    drop-shadow(0 0 7px rgba(38, 235, 98, 0.6));
+}
+
+/* =========================================
+   BOARD
+========================================= */
+
+.board {
+  position: relative;
+
+  width: 100%;
+
+  aspect-ratio: 1 / 0.93;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #111b15 0%,
+      #0b110e 55%,
+      #070a08 100%
+    );
+
+  border: 2px solid #777;
+
+  border-radius: 3px;
+
+  box-shadow:
+    inset 0 0 35px rgba(0, 0, 0, 0.8);
+}
+
+/* =========================================
+   GRID
+========================================= */
+
+.grid-background {
+  position: absolute;
+
+  inset: 0;
+
+  background-image:
+    linear-gradient(
+      rgba(80, 150, 95, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(80, 150, 95, 0.055) 1px,
+      transparent 1px
+    );
+
+  background-size: 5% 5%;
+}
+
+/* =========================================
+   APPLE
+========================================= */
+
+.apple-position {
+  position: absolute;
+
+  width: 5%;
+  height: 5%;
+
+  transform: translate(-50%, -50%);
+
+  z-index: 5;
+}
+
+.apple {
+  position: relative;
+
+  width: 100%;
+  height: 100%;
+
+  border-radius:
+    48% 48% 50% 50%;
+
+  background:
+    radial-gradient(
+      circle at 32% 25%,
+      #ffb4ad 0%,
+      #ff4941 17%,
+      #e31e18 55%,
+      #990605 100%
+    );
+
+  box-shadow:
+    0 0 5px #ff3b32,
+    0 0 12px rgba(255, 30, 20, 0.75),
+    0 0 20px rgba(255, 30, 20, 0.3);
+}
+
+.apple-shine {
+  position: absolute;
+
+  width: 25%;
+  height: 25%;
+
+  left: 21%;
+  top: 18%;
+
+  border-radius: 50%;
+
+  background: white;
+
+  opacity: 0.8;
+}
+
+.apple-stem {
+  position: absolute;
+
+  width: 3px;
+  height: 7px;
+
+  left: 52%;
+  top: -25%;
+
+  background: #633820;
+
+  transform: rotate(10deg);
+
+  border-radius: 5px;
+}
+
+.apple-leaf {
+  position: absolute;
+
+  width: 55%;
+  height: 30%;
+
+  left: 53%;
+  top: -17%;
+
+  background: #39b954;
+
+  border-radius:
+    100% 0 100% 0;
+
+  transform: rotate(-20deg);
+}
+
+/* =========================================
+   SNAKE POSITION
+========================================= */
+
+.snake-position {
+  position: absolute;
+
+  width: 5%;
+  height: 5%;
+
+  transform: translate(-50%, -50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+}
+
+/* =========================================
+   SNAKE BODY
+========================================= */
+
+.snake-segment {
+  position: relative;
+
+  width: 100%;
+  height: 76%;
+
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(91, 255, 145, 0.26),
+      rgba(8, 126, 49, 0.32)
+    );
+
+  border: 1px solid rgba(63, 244, 113, 0.85);
+
+  box-shadow:
+    0 0 4px #35ec6b,
+    0 0 8px rgba(42, 235, 100, 0.45),
+    inset 0 0 5px rgba(98, 255, 143, 0.6);
+}
+
+.inside-glow {
+  position: absolute;
+
+  width: 43%;
+  height: 43%;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #54ff89;
+
+  box-shadow:
+    0 0 5px #38ff73,
+    0 0 9px rgba(56, 255, 115, 0.75);
+}
+
+.inside-dot {
+  position: absolute;
+
+  width: 15%;
+  height: 15%;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #d1ffdd;
+}
+
+/* =========================================
+   HEAD
+========================================= */
+
+.snake-head {
+  position: relative;
+
+  width: 130%;
+  height: 112%;
+
+  border-radius:
+    55% 48% 48% 55%;
+
+  background:
+    radial-gradient(
+      circle at 65% 30%,
+      #c0ffd4 0%,
+      #52f882 17%,
+      #21cf5a 48%,
+      #087d36 100%
+    );
+
+  border: 1px solid #63ff98;
+
+  box-shadow:
+    0 0 5px #36f375,
+    0 0 12px rgba(45, 245, 105, 0.8),
+    inset 0 0 7px rgba(180, 255, 204, 0.5);
+
+  transition:
+    transform 0.08s linear;
+}
+
+/* Head shine */
+
+.head-shine {
+  position: absolute;
+
+  width: 30%;
+  height: 22%;
+
+  left: 52%;
+  top: 18%;
+
+  background: rgba(220, 255, 229, 0.75);
+
+  border-radius: 50%;
+
+  filter: blur(1px);
+}
+
+/* =========================================
+   EYES
+========================================= */
+
+.snake-eye {
+  position: absolute;
+
+  width: 23%;
+  height: 27%;
+
+  background: white;
+
+  border-radius: 50%;
+
+  border: 1px solid #0a170d;
+
+  box-shadow: 0 0 3px white;
+}
+
+.snake-eye span {
+  position: absolute;
+
+  width: 45%;
+  height: 55%;
+
+  left: 50%;
+  top: 50%;
+
+  transform: translate(-50%, -50%);
+
+  border-radius: 50%;
+
+  background: #050505;
+}
+
+.eye-one {
+  left: 52%;
+  top: 16%;
+}
+
+.eye-two {
+  left: 52%;
+  bottom: 16%;
+}
+
+/* =========================================
+   TONGUE
+========================================= */
+
+.snake-tongue {
+  position: absolute;
+
+  width: 55%;
+  height: 2px;
+
+  right: -51%;
+  top: 46%;
+
+  background: #ff5574;
+
+  box-shadow:
+    0 0 3px #ff3159;
+}
+
+.snake-tongue::before,
+.snake-tongue::after {
+  content: "";
+
+  position: absolute;
+
+  right: 0;
+
+  width: 48%;
+  height: 2px;
+
+  background: #ff5574;
+}
+
+.snake-tongue::before {
+  top: -2px;
+
+  transform: rotate(-28deg);
+
+  transform-origin: right;
+}
+
+.snake-tongue::after {
+  top: 2px;
+
+  transform: rotate(28deg);
+
+  transform-origin: right;
+}
+
+/* =========================================
+   TAIL
+========================================= */
+
+.tail-position .snake-segment {
+  transform: scale(0.7);
+
+  opacity: 0.85;
+}
+
+/* =========================================
+   SCORE + RESTART
+========================================= */
+
+.bottom-area {
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 35px;
+
+  margin-top: 25px;
+}
+
+.score {
+  color: white;
+
+  font-size: 27px;
+
+  font-weight: 700;
+}
+
+.restart-button {
+  min-width: 145px;
+
+  padding: 11px 25px;
+
+  border-radius: 8px;
+
+  border: 2px solid white;
+
+  background: #df3c34;
+
+  color: white;
+
+  font-size: 19px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.15s;
+}
+
+.restart-button:hover {
+  background: #f04a41;
+
+  transform: translateY(-2px);
+}
+
+.restart-button:active {
+  transform: scale(0.95);
+}
+
+/* =========================================
+   GAME OVER
+========================================= */
+
+.game-over {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 50;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    rgba(0, 0, 0, 0.62);
+
+  text-align: center;
+}
+
+.game-over strong {
+  color: #ff6a68;
+
+  font-size: 36px;
+
+  text-shadow:
+    0 0 10px rgba(255, 70, 65, 0.7);
+}
+
+.game-over span {
+  margin-top: 8px;
+
+  color: white;
+
+  font-size: 16px;
+}
+
+/* =========================================
+   CONTROLS
+========================================= */
+
+.control-area {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  margin-top: 22px;
+
+  gap: 7px;
+}
+
+.keyboard-label {
+  color: #8a8a8a;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+
+  margin-bottom: 2px;
+}
+
+.control-row {
+  display: flex;
+
+  gap: 7px;
+}
+
+.control {
+  width: 47px;
+  height: 42px;
+
+  border-radius: 8px;
+
+  border: 1px solid #3d3d3d;
+
+  background: #151515;
+
+  color: #48ef78;
+
+  font-size: 25px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 0 8px rgba(48, 238, 105, 0.16);
+
+  -webkit-tap-highlight-color: transparent;
+
+  user-select: none;
+
+  touch-action: manipulation;
+
+  transition:
+    background 0.1s,
+    transform 0.1s;
+}
+
+.control:hover {
+  background: #1e2a21;
+
+  color: #70ff99;
+}
+
+.control:active {
+  background: #29452f;
+
+  transform: scale(0.9);
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .game-container {
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+
+    padding: 8px;
+
+    overflow: hidden;
+
+    align-items: center;
+  }
+
+  .game-card {
+    width: min(100%, 500px);
+
+    max-width: 100%;
+
+    height: calc(100svh - 16px);
+
+    min-height: 0;
+
+    padding:
+      13px
+      12px
+      10px;
+
+    border-radius: 13px;
+
+    justify-content: flex-start;
+  }
+
+  .game-title {
+    flex-shrink: 0;
+
+    gap: 8px;
+
+    margin-bottom: 8px;
+  }
+
+  .real-snake-logo {
+    width: 60px;
+    height: 40px;
+  }
+
+  .game-title h1 {
+    font-size: clamp(20px, 6vw, 27px);
+  }
+
+  .board {
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    aspect-ratio: auto;
+  }
+
+  .bottom-area {
+    flex-shrink: 0;
+
+    margin-top: 8px;
+
+    gap: 18px;
+  }
+
+  .score {
+    font-size: 20px;
+  }
+
+  .restart-button {
+    min-width: 105px;
+
+    padding: 8px 14px;
+
+    font-size: 15px;
+  }
+
+  .control-area {
+    flex-shrink: 0;
+
+    margin-top: 7px;
+
+    gap: 4px;
+  }
+
+  .keyboard-label {
+    font-size: 9px;
+
+    margin-bottom: 0;
+  }
+
+  .control {
+    width: 42px;
+    height: 34px;
+
+    font-size: 21px;
+  }
+
+  .control-row {
+    gap: 5px;
+  }
+
+  .game-over strong {
+    font-size: 29px;
+  }
+
+  .game-over span {
+    font-size: 14px;
+  }
+}
+
+/* SMALL PHONES */
+
+@media (max-height: 700px) and (max-width: 600px) {
+
+  .game-card {
+    padding-top: 8px;
+  }
+
+  .game-title {
+    margin-bottom: 4px;
+  }
+
+  .real-snake-logo {
+    width: 52px;
+    height: 34px;
+  }
+
+  .game-title h1 {
+    font-size: 21px;
+  }
+
+  .bottom-area {
+    margin-top: 5px;
+  }
+
+  .control-area {
+    margin-top: 4px;
+  }
+
+  .control {
+    width: 38px;
+    height: 30px;
+
+    font-size: 19px;
+  }
+}
