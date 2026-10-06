@@ -254,7 +254,7 @@ body {
   width: 5%;
   height: 5%;
 
-  transform: translate(-50%, -50%);
+  transform: translate(0, 0);
 
   display: flex;
   justify-content: center;

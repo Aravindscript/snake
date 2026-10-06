@@ -395,14 +395,14 @@ function App() {
           {/* Apple */}
 
           <div
-            className="apple-position"
-            style={{
-              left: `${(apple.x / BOARD_SIZE) * 100}%`,
-              top: `${(apple.y / BOARD_SIZE) * 100}%`,
-            }}
-          >
-            <Apple />
-          </div>
+  className="apple-position"
+  style={{
+    left: `${((apple.x + 0.5) / BOARD_SIZE) * 100}%`,
+    top: `${((apple.y + 0.5) / BOARD_SIZE) * 100}%`,
+  }}
+>
+  <Apple />
+</div>
 
           {/* Snake */}
 
